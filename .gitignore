@@ -7,3 +7,5 @@ backend/.env
 # Ignore frontend secrets (if any in future)
 frontend/.env
 
+# macOS system files
+.DS_Store
