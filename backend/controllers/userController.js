@@ -14,10 +14,10 @@ export const registerUser = async (req, res) => {
         // CHECK IF USER ALREADY EXISTS
         const userExists = await User.findOne({ email })
         if (userExists) {
-            return res.status(400).json({ messsage: "User already exists" })
+            return res.status(400).json({ message: "User already exists" })
         }
         if (password.length < 8) {
-            return res.status(400).json({ success: false, messsage: "Password must be atleast of 8 characters"})
+            return res.status(400).json({ success: false, message: "Password must be atleast of 8 characters"})
         }
 
         // HASHING PASSWORD

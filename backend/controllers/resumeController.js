@@ -115,7 +115,7 @@ export const updateResume = async (req, res) => {
     try {
         const resume = await Resume.findOne({
             _id: req.params.id,
-            userId: req.user_id
+            userId: req.user._id
         })
         if(!resume) {
             return res.status(404).json({ message: "Resume not found or not authorized" })
@@ -139,7 +139,7 @@ export const deleteResume = async (req, res) => {
     try {
         const resume = await Resume.findOne({
             _id: req.params.id,
-            userId: req.user_id
+            userId: req.user._id
         })
         if(!resume) {
             return res.status(404).json({ message: "Resume not found or not authorized" })   
@@ -167,9 +167,9 @@ export const deleteResume = async (req, res) => {
         }
 
         // DELETE THE RESUME DOCUMENT
-        const deleted = await Resume.findByIdAndDelete({
+        const deleted = await Resume.findOneAndDelete({
             _id: req.params.id,
-            userId: req.user_id
+            userId: req.user._id
         })
         if (!deleted) {
             return res.status(404).json({ message: "Resume not found or not authorized" })   

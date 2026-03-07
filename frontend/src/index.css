@@ -1,1 +1,309 @@
+ /* @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
 @import "tailwindcss";
+
+@theme {
+    --font-heading: "DM sans", sans-serif;
+    --font-body: "Inter", sans-serif;
+
+    --color-text-primary: #191919;
+    --color-bg-primary: #fcfcfc;
+
+    --breakpoint-3xl: 1920px;
+}
+
+@layer base {
+    html {
+        font-family: var(--font-body);
+        color: var(--color-text-primary);
+    }
+
+    body {
+        background-color: var(--color-bg-primary);
+        overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+        font-family: var(--font-heading);
+    }
+}
+*/
+/* custom scrollbar 
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(100, 100, 100, 0.4) ;
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* not imp for now mighy remove later 
+
+@layer utilities {
+    /* Animate text with a shine effect 
+
+    @keyframes text-shine {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        100% {
+            background-position: 100% 50%;
+        }
+    }
+
+    .animate-text-shine {
+        animation: text-shine 3s ease-in-out infinite alternate;
+    }
+}
+
+/* buttons 
+
+    .input-box {
+        @apply w-full text-sm font-medium 
+        text-[#191919] 
+        bg-[#fcfcfc] 
+        border border-[#191919] 
+        px-4 py-2 
+        rounded-md 
+        outline-none 
+        focus:border-gray-800 
+        focus:ring-1 
+        focus:ring-gray-800;
+      }
+
+    .btn-black {
+        @apply w-full text-sm font-medium 
+        text-[#fcfcfc]
+        bg-[#191919]
+        px-4 py-2
+        rounded-md
+        shadow-sm
+        cursor-pointer;
+    }
+    .btn-black:hover {
+        background-color: #3276FD;
+    }
+      
+    .btn-white {
+        @apply w-full text-sm font-medium 
+        text-[#191919]
+        bg-[#fcfcfc]
+        border border-[#191919]
+        px-4 py-2
+        rounded-md
+        hover:bg-gray-100
+        cursor-pointer;
+    }
+
+    .btn-small-black {
+        @apply text-[13px] font-semibold
+        text-[#fcfcfc]
+        bg-[#191919]
+        px-3 py-1.5
+        rounded 
+        cursor-pointer;
+    }
+
+    .btn-small-black:hover {
+        background-color: #3276FD;
+    }
+
+    .btn-small-white {
+        @apply text-[13px] font-semibold
+        text-[#191919]
+        bg-[#fcfcfc]
+        border border-[#191919]
+        px-3 py-1.5
+        rounded 
+        hover:bg-gray-100
+        cursor-pointer;
+    }
+
+    .btn-outline {
+        @apply w-full text-sm font-medium
+        text-[#191919]
+        bg-[#fcfcfc]
+        border border-[#191919]
+        px-4 py-2
+        rounded-md
+        hover:bg-[#191919]
+        hover:text-[#fcfcfc]
+        cursor-pointer;
+    }
+
+    .btn-hero {
+        @apply w-full text-[20px] font-semibold
+        text-[#fcfcfc]
+        bg-[#3276FD]
+        hover:bg-[#191919]
+        px-12 py-2.5
+        rounded-md
+        shadow-sm
+
+    }
+    .btn-hero-v2 {
+        @apply w-full text-[18px] font-semibold
+        text-[#fcfcfc]
+        bg-[#191919]
+        hover:bg-[#3276FD]
+        px-12 py-2.5
+        rounded-md
+        shadow-sm
+
+    }
+    /* Animations which i can use, adding later */
+
+    /* Cards */
+
+
+    /* For printing the resume 
+
+    @media print{
+        body * {
+            visibility: hidden;
+        }
+
+        .resume-container,
+        .resume-container * {
+            visibility: visible;
+        }
+
+        .resume-container {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 210mm !important;
+        }
+    }
+
+   */ 
+
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+    --font-display: "Urbanist", sans-serif;
+    --breakpoint-3xl: 1920px;
+    --color-primary: #9328E7
+}
+
+@layer base {
+    html {
+        font-family: var(--font-display);
+    }
+
+    body {
+        background-color: #fcfbfc;
+        overflow-x: hidden;
+    }
+}
+
+/* custom scrollbar styling */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba((100, 100, 100, 0.4));
+    border-radius: 10px
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+@layer utilities {
+    /* Animate text with a shine effect */
+
+    @keyframes text-shine {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        100% {
+            background-position: 100% 50%;
+        }
+    }
+
+    .animate-text-shine {
+        animation: text-shine 3s ease-in-out infinite alternate;
+    }
+}
+
+.input-box {
+    @apply w-full flex justify-between gap-3 text-sm text-black bg-gray-50/50 rounded px-4 py-3 mb-4 mt-3 border border-gray-100 outline-none focus-within:border-purple-300;
+}
+
+.btn-primary {
+    @apply w-full text-sm font-medium text-white bg-black shadow-lg shadow-purple-600/5 p-[10px] rounded-md my-1 hover:bg-purple-600/15 hover:text-black cursor-pointer;
+}
+
+.btn-small {
+    @apply flex items-center gap-2 text-[13px] font-semibold text-white bg-linear-to-r from-purple-500/8 to-purple-700 px-5 py-1.5 rounded cursor-pointer;
+}
+
+.btn-small-light {
+    @apply flex items-center gap-2 text-[12px] font-semibold text-purple-800 bg-purple-600/15 border border-purple-50 hover:border-purple-400 px-3 py-1.5 rounded cursor-pointer;
+}
+
+.form-input {
+    @apply w-full text-sm text-black outline-none bg-white border border-slate-100 px-2.5 py-3 rounded-md mt-2 placeholder:text-gray-500 focus-within:border-purple-300;
+}
+
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.5s ease forwards;
+    opacity: 0;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    .resume-container,
+    .resume-container * {
+        visibility: visible;
+    }
+
+    .resume-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 210mm !important;
+    }
+}

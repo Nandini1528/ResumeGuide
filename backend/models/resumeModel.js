@@ -36,7 +36,7 @@ const ResumeSchema = new mongoose.Schema({
 
     summary: {
         type: String,
-        required: true,
+        default: '',
         trim: true,
     },
 
