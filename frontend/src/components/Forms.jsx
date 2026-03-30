@@ -1,6 +1,6 @@
 "use client";
 
-import { Input } from "./Inputs";
+import { Input, SelectInput } from "./Inputs";
 import { RatingInput } from "./ResumeSection";
 import { Plus, Trash2 } from "lucide-react";
 import {
@@ -14,6 +14,91 @@ import {
   skillsInfoStyles,
   workExperienceStyles
 } from "../assets/style";
+
+const CUSTOM_SKILL_VALUE = "__custom__";
+
+const TECHNICAL_SKILL_OPTIONS = [
+  "Python",
+  "Java",
+  "C",
+  "C++",
+  "JavaScript",
+  "TypeScript",
+  "Go",
+  "Rust",
+  "Kotlin",
+  "Swift",
+  "HTML5",
+  "CSS3",
+  "React.js",
+  "Angular",
+  "Vue.js",
+  "Node.js",
+  "Express.js",
+  "REST APIs",
+  "GraphQL",
+  "Data Analysis",
+  "Data Visualization",
+  "SQL",
+  "Excel (Advanced)",
+  "Power BI",
+  "Tableau",
+  "Pandas",
+  "NumPy",
+  "Machine Learning",
+  "Deep Learning",
+  "Natural Language Processing (NLP)",
+  "Computer Vision",
+  "TensorFlow",
+  "PyTorch",
+  "Scikit-learn",
+  "AWS (Amazon Web Services)",
+  "Microsoft Azure",
+  "Google Cloud Platform",
+  "Docker",
+  "Kubernetes",
+  "CI/CD Pipelines",
+  "Jenkins",
+  "GitHub Actions",
+  "MySQL",
+  "PostgreSQL",
+  "MongoDB",
+  "Oracle Database",
+  "Firebase",
+  "Redis",
+  "Ethical Hacking",
+  "Network Security",
+  "Penetration Testing",
+  "Cryptography",
+  "Risk Assessment",
+  "Android Development",
+  "iOS Development",
+  "Flutter",
+  "React Native",
+  "SwiftUI",
+  "Git & Version Control",
+  "Linux / Unix",
+  "System Design",
+  "API Integration",
+  "Software Testing (Manual / Automation)",
+  "Agile / Scrum",
+].map((skill) => ({ label: skill, value: skill }));
+
+const SOFT_SKILL_OPTIONS = [
+  "Communication",
+  "Teamwork",
+  "Leadership",
+  "Problem Solving",
+  "Time Management",
+  "Adaptability",
+  "Creativity",
+  "Critical Thinking",
+].map((skill) => ({ label: skill, value: skill }));
+
+const getSkillSelectValue = (skill, options) => {
+  if (!skill) return "";
+  return options.some((option) => option.value === skill) ? skill : CUSTOM_SKILL_VALUE;
+};
 
 // AdditionalInfoForm Component
 export const AdditionalInfoForm = ({ languages, interests, updateArrayItem, addArrayItem, removeArrayItem }) => {
@@ -309,12 +394,12 @@ export const ProfileInfoForm = ({ profileData, updateSection }) => {
             onChange={({ target }) => updateSection("designation", target.value)}
           />
 
-          <div className="md:col-span-2">
-            <label className="block text-sm font-bold text-slate-700 mb-3">Summary</label>
+          <div className="md:col-span-2 group">
+            <label className={profileInfoStyles.label}>Summary</label>
             <textarea
               className={profileInfoStyles.textarea}
               rows={4}
-              placeholder="Short introduction about yourself"
+              placeholder="Professional introduction about yourself"
               value={profileData.summary || ""}
               onChange={({ target }) => updateSection("summary", target.value)}
             />
@@ -414,12 +499,24 @@ export const SkillsInfoForm = ({ skillsInfo, updateSkillArrayItem, addSkillItem,
         {technicalSkills.map((skill, index) => (
           <div key={index} className={skillsInfoStyles.item}>
             <div className="grid grid-cols-1 gap-6">
-              <Input
+              <SelectInput
                 label="Skill Name"
-                placeholder="JavaScript"
-                value={skill || ""}
-                onChange={({ target }) => updateSkillArrayItem("technical", index, target.value)}
+                placeholder="Choose a technical skill"
+                value={getSkillSelectValue(skill, TECHNICAL_SKILL_OPTIONS)}
+                options={[...TECHNICAL_SKILL_OPTIONS, { label: "Custom skill", value: CUSTOM_SKILL_VALUE }]}
+                onChange={({ target }) =>
+                  updateSkillArrayItem("technical", index, target.value === CUSTOM_SKILL_VALUE ? "" : target.value)
+                }
               />
+
+              {getSkillSelectValue(skill, TECHNICAL_SKILL_OPTIONS) === CUSTOM_SKILL_VALUE && (
+                <Input
+                  label="Custom Skill"
+                  placeholder="Enter your technical skill"
+                  value={skill || ""}
+                  onChange={({ target }) => updateSkillArrayItem("technical", index, target.value)}
+                />
+              )}
             </div>
 
             {technicalSkills.length > 1 && (
@@ -448,12 +545,24 @@ export const SkillsInfoForm = ({ skillsInfo, updateSkillArrayItem, addSkillItem,
         {softSkills.map((skill, index) => (
           <div key={index} className={skillsInfoStyles.item}>
             <div className="grid grid-cols-1 gap-6">
-              <Input
+              <SelectInput
                 label="Skill Name"
-                placeholder="Communication"
-                value={skill || ""}
-                onChange={({ target }) => updateSkillArrayItem("soft", index, target.value)}
+                placeholder="Choose a soft skill"
+                value={getSkillSelectValue(skill, SOFT_SKILL_OPTIONS)}
+                options={[...SOFT_SKILL_OPTIONS, { label: "Custom skill", value: CUSTOM_SKILL_VALUE }]}
+                onChange={({ target }) =>
+                  updateSkillArrayItem("soft", index, target.value === CUSTOM_SKILL_VALUE ? "" : target.value)
+                }
               />
+
+              {getSkillSelectValue(skill, SOFT_SKILL_OPTIONS) === CUSTOM_SKILL_VALUE && (
+                <Input
+                  label="Custom Skill"
+                  placeholder="Enter your soft skill"
+                  value={skill || ""}
+                  onChange={({ target }) => updateSkillArrayItem("soft", index, target.value)}
+                />
+              )}
             </div>
 
             {softSkills.length > 1 && (
@@ -484,7 +593,10 @@ export const SkillsInfoForm = ({ skillsInfo, updateSkillArrayItem, addSkillItem,
 export const InternshipExperienceForm = ({ internshipExperience, updateArrayItem, addArrayItem, removeArrayItem }) => {
   return (
     <div className={workExperienceStyles.container}>
-      <h2 className={workExperienceStyles.heading}>Internship Experience</h2>
+      <h2 className={workExperienceStyles.heading}>Internship Experience / Work Experience</h2>
+      <p className="mt-2 mb-6 text-sm text-[#6F7580]">
+        Optional. If you do not have any experience yet, you can skip this section.
+      </p>
       <div className="space-y-6 mb-6">
         {internshipExperience.map((experience, index) => (
           <div key={index} className={workExperienceStyles.item}>
@@ -522,7 +634,7 @@ export const InternshipExperienceForm = ({ internshipExperience, updateArrayItem
               />
             </div>
 
-            {internshipExperience.length > 1 && (
+            {internshipExperience.length >= 1 && (
               <button
                 type="button"
                 className={commonStyles.trashButton}
@@ -533,6 +645,12 @@ export const InternshipExperienceForm = ({ internshipExperience, updateArrayItem
             )}
           </div>
         ))}
+
+        {internshipExperience.length === 0 && (
+          <div className="rounded-2xl border border-dashed border-gray-200 bg-white/60 p-6 text-sm text-[#6F7580]">
+            No experience added yet. You can continue without this section, or add one entry below.
+          </div>
+        )}
 
         <button
           type="button"

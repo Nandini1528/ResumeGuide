@@ -54,12 +54,12 @@ const ThemeSelector = ({ selectedTheme, setSelectedTheme, resumeData, onClose })
         <div className=' max-w-7xl mx-auto px-4'>
             {/* header */}
             <div className=' flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8
-            p-4 sm:p-6 bg-gradient-to-r from-white to-violet-50 rounded-2xl border border-violet-100'>
+            p-4 sm:p-6 bg-gradient-to-r from-white to-blue-50 rounded-2xl border border-blue-100'>
 
                 <Tabs tabs={TAB_DATA} activeTab={tabValue} setActiveTab={setTabValue} />
 
-                <button className=' w-full sm:w-auto flex items-center justify-center gap-3 px-6 py-3 bg-gradient-to-r 
-                from-violet-600 to-fuchsia-600 text-white font-black rounded-2xl hover:scale-105
+                <button className=' w-full sm:w-auto flex items-center justify-center gap-3 px-6 py-3 bg-[#191919]
+                text-white font-black rounded-2xl hover:bg-black hover:scale-105
                 transition-all shadow-lg hover:shadow-xl' onClick={handleThemeSelection}>
                     <Check size={18} /> Apply Changes
                 </button>

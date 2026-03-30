@@ -1,94 +1,64 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { landingPageStyles } from '../assets/style'
-import { Atom, LayoutTemplate, X, Menu, ArrowRight, Zap, Download } from 'lucide-react';
+import { Atom, LayoutTemplate, X, Menu, Zap, Download } from 'lucide-react';
 import { UserContext } from '../context/UserContext';
 import { ProfileInfoCard } from '../components/Cards';
-import Modal from '../components/Modal';
-import Login from '../components/Login';
-import SignUp from '../components/SignUp';
+import video from '../assets/video.mp4';
+import Navbar from '../components/Navbar';
+import internshipImg from '../assets/internshipImg.jpg'
+import hackathonImg from '../assets/hackathon.jpg'
+import clubsImg from '../assets/clubs.jpg'
+import startingImg from '../assets/starting.jpg'
+import img1 from '../assets/1.jpg'
+import img2 from '../assets/2.jpg'
+import img3 from '../assets/3.jpg'
+import img4 from '../assets/4.jpg'
+import img5 from '../assets/5.jpg'
+import img6 from '../assets/6.jpg'
+import img7 from '../assets/7.jpg'
+import { Sparkles } from "lucide-react";
+
 const LandingPage = () => {
   const { user } = useContext(UserContext)
   const navigate = useNavigate()
 
-  const [openAuthModal, setOpenAuthModal] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [currentPage, setCurrentPage] = useState("login")
+  
+  const [isVideoBlurred, setIsVideoBlurred] = useState(false)
+  const featuresSectionRef = useRef(null)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!featuresSectionRef.current) return
+
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight
+      const { top } = featuresSectionRef.current.getBoundingClientRect()
+
+      const shouldBlur = top < viewportHeight * 0.7
+      setIsVideoBlurred(prev => (prev === shouldBlur ? prev : shouldBlur))
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
   const handleCTA = () => {
-    if (!user) {
-      setOpenAuthModal(true)
-    }
-    else {
+    if (user) {
       navigate('/dashboard')
+    } else {
+      // dispatch a custom event Navbar listens to
+      window.dispatchEvent(new CustomEvent('open-auth-modal'))
     }
   }
 
   return (
     <div className={landingPageStyles.container}>
 
-      {/* HEADER */}
-      <header className={landingPageStyles.header}>
-        <div className={landingPageStyles.headerContainer}>
-          <div className={landingPageStyles.logoContainer}>
-            <div className={landingPageStyles.logoIcon}>
-              <LayoutTemplate className={landingPageStyles.logoIconInner} />
-            </div>
-            <span className={landingPageStyles.logoText}>
-              ResumeGuide
-            </span>
-          </div>
-
-          {/* MOBILE MENU BTN */}
-          <button className={landingPageStyles.mobileMenuButton}
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-              {mobileMenuOpen ?
-              <X size={24} className={landingPageStyles.mobileMenuIcon} /> :
-              <Menu size={24} className={landingPageStyles.mobileMenuIcon} /> }
-          </button>
-
-          {/* DESKTOP NAVIGATION */}
-          <div className=' hidden md:flex items-center'>
-            {user ? (
-              <ProfileInfoCard/>
-            ) : (
-              <button className={landingPageStyles.desktopAuthButton} onClick={() => setOpenAuthModal(true)}>
-                <div className={landingPageStyles.desktopAuthButtonOverlay}></div>
-                <span className={landingPageStyles.desktopAuthButtonText}>Get Started</span>
-              </button>
-            )}
-          </div>
-        </div>
-        {/* MOBILE MENU */}
-        {mobileMenuOpen && (
-          <div className={landingPageStyles.mobileMenu}>
-            <div className={landingPageStyles.mobileMenuContainer}>
-              {user ? (
-                <div className={landingPageStyles.mobileUserInfo}>
-                  <div className={landingPageStyles.mobileUserWelcome}>
-                    Welcome Back
-                  </div>
-                  <button className={landingPageStyles.mobileDashboardButton}
-                  onClick={() => {
-                    navigate('/dashboard');
-                    setMobileMenuOpen(false)
-                  }}>
-                    Go to Dashboard
-                  </button>
-                </div>
-              ) : (
-                <button className={landingPageStyles.mobileAuthButton}
-                onClick={() => {
-                  setOpenAuthModal(true)
-                  setMobileMenuOpen(false)
-                }}>
-                  Get Started
-                </button>
-              )}
-            </div>
-          </div>
-        )}
-      </header>
+      <Navbar></Navbar>
 
       {/* MAIN CONTENT */}
       <main className={landingPageStyles.main}>
@@ -97,224 +67,261 @@ const LandingPage = () => {
           {/* LEFT CONTENT */}
           <div className={landingPageStyles.heroLeft}>
             <div className={landingPageStyles.tagline}>
-              Pro Resume Builder
             </div>
 
             <h1 className={landingPageStyles.heading}>
-              <span className={landingPageStyles.headingText}>Craft</span>
-              <span className={landingPageStyles.headingGradient}>Professional</span>
-              <span className={landingPageStyles.headingText}>Resume</span>
-            </h1>
+  <span className={`${landingPageStyles.headingText} block md:whitespace-nowrap`}>
+    Everyone starts somewhere.
+  </span>
 
+  <span className={`${landingPageStyles.headingText} block`}>
+    This is <span className={landingPageStyles.headingGradient}>Yours.</span>
+  </span>
+</h1>
             <p className={landingPageStyles.description}>
-              Create job wining resumes with expertly designed templates.
-              ATS Friendly, recruiter-approved, and tailored to your career goals.
+              Made for students who don’t know where to start.
+              <br />
+              No experience? That’s okay. <span className="font-regular text-[#191919]">We’ve got you.</span>
             </p>
 
             <div className={landingPageStyles.ctaButtons}>
-              <button className={landingPageStyles.primaryButton}
-              onClick={handleCTA}>
-                <div className={landingPageStyles.primaryButtonOverlay}></div>
-                <span className={landingPageStyles.primaryButtonContent}>
-                  Start Building
-                  <ArrowRight className={landingPageStyles.primaryButtonIcon} size={18}/>
-                </span>
+              <button
+                className={`${landingPageStyles.secondaryButton} min-w-[260px] sm:min-w-[300px]`}
+                onClick={handleCTA}
+              >
+                Let’s Build
               </button>
 
-              <button className={landingPageStyles.secondaryButton} onClick={handleCTA}>
-                View Templates
+              <button
+                className={`${landingPageStyles.secondaryButton} min-w-[260px] sm:min-w-[300px] flex items-center justify-center gap-2`}
+                onClick={() => navigate('/analyze-job-description')}
+              >
+              <Sparkles size={18} />
+                 Analyze Job Description
               </button>
             </div>
 
-            {/* STATS GRID */}
-            <div className={landingPageStyles.statsContainer}>
-              {[
-                 { value: '50K+', label: 'Resumes Created', gradient: 'from-violet-600 to-fuchsia-600' },
-                 { value: '4.9★', label: 'User Rating', gradient: 'from-orange-500 to-red-500' },
-                 { value: '5 Min', label: 'Build Time', gradient: 'from-emerald-500 to-teal-500' }
-              ].map((stat, idx) => (
-                <div className={landingPageStyles.statItem} key={idx}>
-                  <div className={`${landingPageStyles.statNumber} ${stat.gradient}`}>
-                      {stat.value}
-                  </div>
-                  <div className={landingPageStyles.statLabel}>{stat.label}</div>
-                </div>
-              ))}
-            </div>
           </div>
 
-          {/* RIGHT SIDE */}
-          <div className={landingPageStyles.heroIllustration}>
-                            <div className={landingPageStyles.heroIllustrationBg}></div>
-                            <div className={landingPageStyles.heroIllustrationContainer}>
-                                <svg
-                                    viewBox="0 0 400 500"
-                                    className={landingPageStyles.svgContainer}
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    {/* Background */}
-                                    <defs>
-                                        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stopColor="#8b5cf6" />
-                                            <stop offset="100%" stopColor="#d946ef" />
-                                        </linearGradient>
-                                        <linearGradient id="cardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stopColor="#ffffff" />
-                                            <stop offset="100%" stopColor="#f8fafc" />
-                                        </linearGradient>
-                                    </defs>
+          {/* FANNED CARDS */}
+<div className="flex justify-center items-center py-20">
+  <style>{`
+    .fan-cards {
+      position: relative;
+      width: 320px;
+      height: 300px;
+      cursor: pointer;
+    }
+    .fan-card {
+      position: absolute;
+      width: 200px;
+      height: 260px;
+      border-radius: 16px;
+      top: 0;
+      left: 50%;
+      transform-origin: bottom center;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+    .fan-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
 
-                                    {/* SVG elements */}
-                                    <rect x="50" y="50" width="300" height="400" rx="20" className={landingPageStyles.svgRect} />
-                                    <circle cx="120" cy="120" r="25" className={landingPageStyles.svgCircle} />
-                                    <rect x="160" y="105" width="120" height="8" rx="4" className={landingPageStyles.svgRectPrimary} />
-                                    <rect x="160" y="120" width="80" height="6" rx="3" className={landingPageStyles.svgRectSecondary} />
-                                    <rect x="70" y="170" width="260" height="4" rx="2" className={landingPageStyles.svgRectLight} />
-                                    <rect x="70" y="185" width="200" height="4" rx="2" className={landingPageStyles.svgRectLight} />
-                                    <rect x="70" y="200" width="240" height="4" rx="2" className={landingPageStyles.svgRectLight} />
-                                    <rect x="70" y="230" width="60" height="6" rx="3" className={landingPageStyles.svgRectPrimary} />
-                                    <rect x="70" y="250" width="40" height="15" rx="7" className={landingPageStyles.svgRectSkill} />
-                                    <rect x="120" y="250" width="50" height="15" rx="7" className={landingPageStyles.svgRectSkill} />
-                                    <rect x="180" y="250" width="45" height="15" rx="7" className={landingPageStyles.svgRectSkill} />
-                                    <rect x="70" y="290" width="80" height="6" rx="3" className={landingPageStyles.svgRectSecondary} />
-                                    <rect x="70" y="310" width="180" height="4" rx="2" className={landingPageStyles.svgRectLight} />
-                                    <rect x="70" y="325" width="150" height="4" rx="2" className={landingPageStyles.svgRectLight} />
-                                    <rect x="70" y="340" width="200" height="4" rx="2" className={landingPageStyles.svgRectLight} />
+    .fan-card:nth-child(1) { transform: translateX(-50%) rotate(-22deg) translateY(24px); z-index: 1; }
+    .fan-card:nth-child(2) { transform: translateX(-50%) rotate(-14deg) translateY(14px); z-index: 2; }
+    .fan-card:nth-child(3) { transform: translateX(-50%) rotate(-6deg)  translateY(6px);  z-index: 3; }
+    .fan-card:nth-child(4) { transform: translateX(-50%) rotate(0deg)   translateY(0px);  z-index: 7; }
+    .fan-card:nth-child(5) { transform: translateX(-50%) rotate(6deg)   translateY(6px);  z-index: 3; }
+    .fan-card:nth-child(6) { transform: translateX(-50%) rotate(14deg)  translateY(14px); z-index: 2; }
+    .fan-card:nth-child(7) { transform: translateX(-50%) rotate(22deg)  translateY(24px); z-index: 1; }
 
-                                    {/* Animated elements */}
-                                    <circle cx="320" cy="100" r="15" className={landingPageStyles.svgAnimatedCircle}>
-                                        <animateTransform
-                                            attributeName="transform"
-                                            type="translate"
-                                            values="0,0; 0,-10; 0,0"
-                                            dur="3s"
-                                            repeatCount="indefinite"
-                                        />
-                                    </circle>
-                                    <rect x="30" y="300" width="12" height="12" rx="6" className={landingPageStyles.svgAnimatedRect}>
-                                        <animateTransform
-                                            attributeName="transform"
-                                            type="translate"
-                                            values="0,0; 5,0; 0,0"
-                                            dur="2s"
-                                            repeatCount="indefinite"
-                                        />
-                                    </rect>
-                                    <polygon points="360,200 370,220 350,220" className={landingPageStyles.svgAnimatedPolygon}>
-                                        <animateTransform
-                                            attributeName="transform"
-                                            type="rotate"
-                                            values="0 360 210; 360 360 210; 0 360 210"
-                                            dur="4s"
-                                            repeatCount="indefinite"
-                                        />
-                                    </polygon>
-                                </svg>
-                            </div>
-                        </div>
-          </div>
+    .fan-cards:hover .fan-card:nth-child(1) { transform: translateX(calc(-50% - 360px)) rotate(-30deg) translateY(34px); }
+    .fan-cards:hover .fan-card:nth-child(2) { transform: translateX(calc(-50% - 240px)) rotate(-20deg) translateY(18px); }
+    .fan-cards:hover .fan-card:nth-child(3) { transform: translateX(calc(-50% - 120px)) rotate(-8deg)  translateY(6px); }
+    .fan-cards:hover .fan-card:nth-child(4) { transform: translateX(-50%)               rotate(0deg)   translateY(0px); }
+    .fan-cards:hover .fan-card:nth-child(5) { transform: translateX(calc(-50% + 120px)) rotate(8deg)   translateY(6px); }
+    .fan-cards:hover .fan-card:nth-child(6) { transform: translateX(calc(-50% + 240px)) rotate(20deg)  translateY(18px); }
+    .fan-cards:hover .fan-card:nth-child(7) { transform: translateX(calc(-50% + 360px)) rotate(30deg)  translateY(34px); }
+  `}</style>
+
+  <div className="fan-cards">
+    {[img1, img2, img3, img4, img5, img6, img7].map((src, idx) => (
+      <div key={idx} className="fan-card">
+        <img src={src} alt={`Resume template ${idx + 1}`} />
+      </div>
+    ))}
+  </div>
+</div>
+                         
+                </div>            
         </section>
 
 
 
         {/* FEATURES SECTION */}
-        <section className={landingPageStyles.featuresSection}>
-          <div className={landingPageStyles.featuresContainer}>
-            <div className={landingPageStyles.featuresHeader}>
-              <h2 className={landingPageStyles.featuresTitle}>
-                Why Choose <span className={landingPageStyles.featuresTitleGradient}>
-                  ResumeGuide?
-                </span>
-              </h2>
-              <p className={landingPageStyles.featuresDescription}>
-                Everything you need to create a Professional Resume that stands out
-              </p>
-            </div>
-            
-            <div className={landingPageStyles.featuresGrid}>
-              {[
-                {
-                  icon: <Zap className={landingPageStyles.featureIcon} />,
-                  title: "Lightning Fast",
-                  description: "Create professional resumes in under 5 minutes with our streamlined process",
-                  gradient: landingPageStyles.featureIconViolet,
-                  bg: landingPageStyles.featureCardViolet
-                },
-                {
-                  icon: <LayoutTemplate className={landingPageStyles.featureIcon} />,
-                  title: "Pro Templates",
-                  description: "Choose from dozens of recruiter-approved, industry-specific templates",
-                  gradient: landingPageStyles.featureIconFuchsia,
-                  bg: landingPageStyles.featureCardFuchsia
-                },
-                {
-                  icon: <Download className={landingPageStyles.featureIcon} />,
-                  title: "Instant Export",
-                  description: "Download high-quality PDFs instantly with perfect formatting",
-                  gradient: landingPageStyles.featureIconOrange,
-                  bg: landingPageStyles.featureCardOrange
-                }
-              ].map((feature, idx) => (
-                <div key={idx} className={landingPageStyles.featureCard}>
-                  <div className={landingPageStyles.featureCardHover}></div>
-                  <div className={`${landingPageStyles.featureCardContent} ${feature.bg}`}>
-                    <div className={`${landingPageStyles.featureIconContainer} ${feature.gradient}`}>
-                      {feature.icon}
-                    </div>
-                    <h3 className={landingPageStyles.featureTitle}>
-                      {feature.title}</h3>
-                    <p className={landingPageStyles.featureDescription}>
-                      {feature.description}</p>
-                  </div>
-                </div>
-              ))}
+{/* FEATURES SECTION */}
+<section
+  ref={featuresSectionRef}
+  className="relative z-10 px-6 pt-24 pb-16 max-w-7xl mx-auto"
+>
+  {/* Section Header */}
+  <div
+    className={`mb-10 lp-features-over-video-title ${isVideoBlurred ? 'lp-features-over-video-title--visible' : ''}`}
+  >
+    <h2 className="text-3xl md:text-4xl font-bold text-[#191919]">
+      Why you should do this NOW?
+    </h2>
+    <p className="mt-2 text-gray-400 text-base">
+      You'll need the resume{' '}
+      <span className="font-normal text-[#191919]">sooner than you think.</span>
+    </p>
+  </div>
+
+  {/* Cards - horizontal scroll with peek */}
+  <div className="flex gap-5 overflow-x-auto pb-4 custom-scrollbar snap-x snap-mandatory -mx-6 px-6">
+    {[
+      {
+        icon: <Zap size={15} />,
+        title: "Internships &\nTraining Programs",
+        description: "Most applications ask for a resume upfront.",
+        path: "/internships",
+        image: internshipImg
+      },
+      {
+        icon: <LayoutTemplate size={15} />,
+        title: "Hackathons &\nCompetitions",
+        description: "You'll often need one to register.",
+        path: "/hackathons",
+        image: hackathonImg
+      },
+      {
+        icon: <Download size={15} />,
+        title: "Clubs &\nCollege Opportunities",
+        description: "Most applications ask for a resume upfront.",
+        path: "/clubs",
+        image: clubsImg
+      },
+      {
+        icon: <Zap size={15} />,
+        title: "Starting\nHelps Early",
+        description: "The earlier you start, the better it gets.",
+        path: "/starting-early",
+        image: startingImg
+      },
+    ].map((card, idx) => (
+      <div
+        key={idx}
+        className="
+          snap-start shrink-0
+          w-[280px] md:w-[320px]
+          bg-white border border-gray-200 rounded-3xl
+          overflow-hidden flex flex-col
+          hover:shadow-lg hover:-translate-y-1
+          transition-all duration-200
+        "
+      >
+        {/* Card Top — text content */}
+        <div className="p-5 flex flex-col gap-2.5">
+
+          {/* Title row + bookmark */}
+          <div className="flex items-start justify-between gap-3">
+            <h3 className="font-normal text-[#191919] text-lg leading-snug whitespace-pre-line">
+              {card.title}
+            </h3>
+            <div className="shrink-0 p-2 rounded-lg bg-gray-100 text-gray-400">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15" height="15"
+                viewBox="0 0 24 24"
+                fill="none" stroke="currentColor"
+                strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+              >
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+              </svg>
             </div>
           </div>
-        </section>
+
+          {/* Description */}
+          <p className="text-gray-400 text-xs leading-relaxed">
+            {card.description}
+          </p>
+
+          {/* Action button */}
+          <button
+            onClick={() => navigate(card.path)}
+            className="
+              mt-3 w-fit
+              px-4 py-1.5 rounded-lg
+              bg-[#191919] text-white
+              text-xs font-semibold
+              hover:bg-gray-800
+              transition-colors duration-150
+              cursor-pointer
+            "
+          >
+            Learn more
+          </button>
+        </div>
+
+        {/* Card Bottom — image, flush to edges */}
+        <div className="mt-auto mx-3 mb-3 rounded-2xl overflow-hidden h-56">
+          <img
+            src={card.image}
+            alt={card.title}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
 
         {/* CTA Section */}
-        <section className={landingPageStyles.ctaSection}>
-          <div className={landingPageStyles.ctaContainer}>
-            <div className={landingPageStyles.ctaCard}>
-              <div className={landingPageStyles.ctaCardBg}></div>
-              <div className={landingPageStyles.ctaCardContent}>
-                <h2 className={landingPageStyles.ctaTitle}>
-                  Ready to Build Your <span className={landingPageStyles.ctaTitleGradient}>
-                    Standout Resume?
-                  </span>
-                </h2>
-                <p className={landingPageStyles.ctaDescription}>
-                  Join thousands of professionals who landed their dream job with our platform
-                </p>
-                <button className={landingPageStyles.ctaButton} onClick={handleCTA}>
-                  <div className={landingPageStyles.ctaButtonOverlay}></div>
-                  <span className={landingPageStyles.ctaButtonText}>Start Building Now</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
+<section className="w-full min-h-[36vh] bg-[#1a1a1a] px-6 py-14 md:py-18 flex flex-col items-center justify-center text-center gap-4">
+
+  <h2 className="max-w-3xl text-4xl md:text-5xl font-bold text-white leading-snug">
+    Let's take your first step.
+    <br />
+    Shall we?
+  </h2>
+
+  <p className="max-w-xl text-xs md:text-base text-gray-400 italic leading-relaxed">
+    You don't need everything{' '}
+    <span className="font-medium text-white">figured out</span>
+    {' '}to begin with.
+  </p>
+
+  <button
+    onClick={handleCTA}
+    className={`${landingPageStyles.primaryButton} mt-8`}
+  >
+    <div className={landingPageStyles.primaryButtonOverlay}></div>
+    <span className={landingPageStyles.primaryButtonContent}>Start Building</span>
+  </button>
+
+</section>
+
       </main>
 
       {/* FOOTER SECTION */}
-      <footer className={landingPageStyles.footer}>
-        <div className={landingPageStyles.footerContainer}>
-          <p className={landingPageStyles.footerText}>
-            Crafted with <span className={landingPageStyles.footerHeart}>❤️</span> by{' '}
-          </p>
-        </div>
-      </footer>
+<footer className="w-full px-10 pt-10 pb-6">
+  <div className="max-w-7xl mx-auto border-t border-gray-200 pt-6 flex items-center justify-between">
+    <p className="text-xs text-gray-400">
+      Copyright © 2026 Resume Guide. All rights reserved.
+    </p>
+    <div className="flex items-center gap-1 text-xs text-gray-400">
+      <a href="#" className="hover:text-[#191919] transition-colors">Privacy Policy</a>
+      <span>|</span>
+      <a href="#" className="hover:text-[#191919] transition-colors">Terms Conditions</a>
+    </div>
+  </div>
+</footer>
 
-      {/* MODAL FOR LOGIN AND SINUP */}
-      <Modal isOpen={openAuthModal} onClose={() => {
-        setOpenAuthModal(false)
-        setCurrentPage("login")
-      }} hideHeader> 
-      <div>
-        {currentPage === "login" && <Login setCurrentPage={setCurrentPage} />}
-        {currentPage === "signup" && <SignUp setCurrentPage={setCurrentPage} />}
-      </div>
-      </Modal>
     </div>
     )
 }

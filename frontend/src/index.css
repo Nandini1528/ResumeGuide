@@ -1,4 +1,4 @@
- /* @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
 
 @import "tailwindcss";
 
@@ -27,197 +27,29 @@
         font-family: var(--font-heading);
     }
 }
-*/
-/* custom scrollbar 
-.custom-scrollbar::-webkit-scrollbar {
-    width: 4px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: rgba(100, 100, 100, 0.4) ;
-    border-radius: 10px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-/* not imp for now mighy remove later 
-
-@layer utilities {
-    /* Animate text with a shine effect 
-
-    @keyframes text-shine {
-        0% {
-            background-position: 0% 50%;
-        }
-
-        100% {
-            background-position: 100% 50%;
-        }
-    }
-
-    .animate-text-shine {
-        animation: text-shine 3s ease-in-out infinite alternate;
-    }
-}
-
-/* buttons 
-
-    .input-box {
-        @apply w-full text-sm font-medium 
-        text-[#191919] 
-        bg-[#fcfcfc] 
-        border border-[#191919] 
-        px-4 py-2 
-        rounded-md 
-        outline-none 
-        focus:border-gray-800 
-        focus:ring-1 
-        focus:ring-gray-800;
-      }
-
-    .btn-black {
-        @apply w-full text-sm font-medium 
-        text-[#fcfcfc]
-        bg-[#191919]
-        px-4 py-2
-        rounded-md
-        shadow-sm
-        cursor-pointer;
-    }
-    .btn-black:hover {
-        background-color: #3276FD;
-    }
-      
-    .btn-white {
-        @apply w-full text-sm font-medium 
-        text-[#191919]
-        bg-[#fcfcfc]
-        border border-[#191919]
-        px-4 py-2
-        rounded-md
-        hover:bg-gray-100
-        cursor-pointer;
-    }
-
-    .btn-small-black {
-        @apply text-[13px] font-semibold
-        text-[#fcfcfc]
-        bg-[#191919]
-        px-3 py-1.5
-        rounded 
-        cursor-pointer;
-    }
-
-    .btn-small-black:hover {
-        background-color: #3276FD;
-    }
-
-    .btn-small-white {
-        @apply text-[13px] font-semibold
-        text-[#191919]
-        bg-[#fcfcfc]
-        border border-[#191919]
-        px-3 py-1.5
-        rounded 
-        hover:bg-gray-100
-        cursor-pointer;
-    }
-
-    .btn-outline {
-        @apply w-full text-sm font-medium
-        text-[#191919]
-        bg-[#fcfcfc]
-        border border-[#191919]
-        px-4 py-2
-        rounded-md
-        hover:bg-[#191919]
-        hover:text-[#fcfcfc]
-        cursor-pointer;
-    }
-
-    .btn-hero {
-        @apply w-full text-[20px] font-semibold
-        text-[#fcfcfc]
-        bg-[#3276FD]
-        hover:bg-[#191919]
-        px-12 py-2.5
-        rounded-md
-        shadow-sm
-
-    }
-    .btn-hero-v2 {
-        @apply w-full text-[18px] font-semibold
-        text-[#fcfcfc]
-        bg-[#191919]
-        hover:bg-[#3276FD]
-        px-12 py-2.5
-        rounded-md
-        shadow-sm
-
-    }
-    /* Animations which i can use, adding later */
-
-    /* Cards */
-
-
-    /* For printing the resume 
-
-    @media print{
-        body * {
-            visibility: hidden;
-        }
-
-        .resume-container,
-        .resume-container * {
-            visibility: visible;
-        }
-
-        .resume-container {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 210mm !important;
-        }
-    }
-
-   */ 
-
-
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
-
-@import "tailwindcss";
-
-@theme {
-    --font-display: "Urbanist", sans-serif;
-    --breakpoint-3xl: 1920px;
-    --color-primary: #9328E7
-}
-
-@layer base {
-    html {
-        font-family: var(--font-display);
-    }
-
-    body {
-        background-color: #fcfbfc;
-        overflow-x: hidden;
-    }
-}
 
 /* custom scrollbar styling */
 .custom-scrollbar::-webkit-scrollbar {
-    width: 4px;
+    width: 10px;
+    height: 6px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: rgba((100, 100, 100, 0.4));
-    border-radius: 10px
+    background: linear-gradient(90deg, #5f6672, #7a8190);
+    border: 3px solid rgba(111, 117, 128, 0.22);
+    border-radius: 9999px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
+    background: rgba(15, 23, 42, 0.10);
+    border-radius: 9999px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    margin: 0 300px;
+}
+
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #6F7580 rgba(15, 23, 42, 0.10);
 }
 
 @layer utilities {
@@ -306,4 +138,32 @@
         top: 0;
         width: 210mm !important;
     }
+}
+
+/* Landing page hero / features scroll effect */
+.lp-hero-video {
+    transition: transform 600ms ease, filter 600ms ease, opacity 600ms ease;
+    transform-origin: center center;
+    will-change: transform, filter;
+}
+
+.lp-hero-video--blurred {
+    filter: blur(10px);
+    transform: scale(1.05);
+}
+
+.lp-features-over-video {
+    position: relative;
+    z-index: 10;
+}
+
+.lp-features-over-video-title {
+    transition: opacity 500ms ease, transform 500ms ease;
+    opacity: 0;
+    transform: translateY(12px);
+}
+
+.lp-features-over-video-title--visible {
+    opacity: 1;
+    transform: translateY(0);
 }

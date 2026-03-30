@@ -3,6 +3,8 @@ import cors from 'cors'
 import 'dotenv/config'
 import { connectDB } from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
+import chatRoutes from "./routes/chat.js";
+
 
 import path from 'path'
 import { fileURLToPath } from 'url';
@@ -22,6 +24,7 @@ connectDB();
 // MIDDLEWARE
 app.use(express.json())
 
+app.use("/api", chatRoutes);
 app.use('/api/auth', userRoutes);
 app.use('/api/resume', resumeRoutes)
 

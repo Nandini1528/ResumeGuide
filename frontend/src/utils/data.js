@@ -1,6 +1,7 @@
 import Resume1 from "../assets/Resume1.png"
 import Resume2 from "../assets/Resume2.png"
 import Resume3 from "../assets/Resume3.png"
+import Resume4 from "../assets/Resume4.jpg"
 
 export const resumeTemplates = [
     {
@@ -17,6 +18,11 @@ export const resumeTemplates = [
         id: "03",
         thumbnailImg: Resume3,
         colorPaletteCode: "themeThree"
+    },
+    {
+        id: "04",
+        thumbnailImg: Resume4,
+        colorPaletteCode: "themeFour"
     },
 ]
 

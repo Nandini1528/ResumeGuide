@@ -190,16 +190,6 @@ const calculateCompletion = (resume) => {
                      : 'Start building your professional resume'}
                 </p>
             </div>
-
-            <div className=' flex gap-4'>
-                <button className={styles.createButton}
-                onClick={() => setOpenCreateModal(true)}>
-                    <div className={styles.createButtonOverlay}></div>
-                    <span className={styles.createButtonContent}>
-                        Create Now
-                    </span>
-                </button>
-            </div>
         </div>
       </div>
 
@@ -214,7 +204,7 @@ const calculateCompletion = (resume) => {
       {!loading && allResumes.length === 0 && (
         <div className={styles.emptyStateWrapper}>
             <div className={styles.emptyIconWrapper}>
-                <LucideFilePlus size={32} className=' text-violet-600' />
+                <LucideFilePlus size={32} className=' text-[#3276FD]' />
             </div>
 
             <h3 className={styles.emptyTitle}>No Resumes Yet</h3>
@@ -273,7 +263,7 @@ const calculateCompletion = (resume) => {
 
       {/* DELETE MODAL */}
       <Modal isOpen={showDeleteConfirm} onClose={() => setShowDeleteConfirm(false)} title='Confirm Deletion'
-        showActionBtn actionBtnText='Delete' actionBtnClassName = 'bg-red-600 hover:bg-red-700'
+        showActionBtn actionBtnText='Delete' actionBtnClassName = '!bg-none !bg-[#3276FD] hover:!bg-blue-700'
         onActionClick={handleDeleteResume}>
 
             <div className=' p-4 '>

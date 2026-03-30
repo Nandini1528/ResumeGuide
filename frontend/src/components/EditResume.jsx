@@ -18,8 +18,7 @@ import { AlertCircle, ArrowLeft, Check, Download, Loader, Loader2, Palette, Save
 import { API_PATHS } from '../utils/apiPaths'
 import axiosInstance from '../utils/axiosinstance'
 import toast from 'react-hot-toast'
-import { fixTailwindColors } from '../utils/colors'
-import { dataURLtoFile } from '../utils/helper'
+import { captureElementAsImage, dataURLtoFile } from '../utils/helper'
 import html2canvas from 'html2canvas'
 
 import html2pdf from 'html2pdf.js'
@@ -264,7 +263,11 @@ const EditResume = () => {
         break
 
       case "work-experience":
-        resumeData.internshipExperience.forEach(({ company, role, duration }, index) => {
+        resumeData.internshipExperience.forEach(({ company, role, duration, description }, index) => {
+          const hasAnyValue = [company, role, duration, description].some((value) => value?.trim())
+
+          if (!hasAnyValue) return
+
           if (!company || !company.trim()) errors.push(`Company is required in experience ${index + 1}`)
           if (!role || !role.trim()) errors.push(`Role is required in experience ${index + 1}`)
           if (!duration || !duration.trim()) errors.push(`Duration is required in experience ${index + 1}`)
@@ -558,52 +561,59 @@ const EditResume = () => {
     }
   }
 
-  // IT WILL HELP IN CHOOSING THE PREVIEW AS WELL AS HELPS IN DOWNLOADING THE RESUME ALSO SAVES TTHE RESUME AS A IMAGE.
-  const uploadResumeImages = async () => {
+  const uploadResumeThumbnail = async () => {
+    const thumbnailElement = thumbnailRef.current
+    if (!thumbnailElement) {
+      return null
+    }
+
+    const { width, height } = thumbnailElement.getBoundingClientRect()
+    if (!width || !height) {
+      return null
+    }
+
+    const thumbnailDataUrl = await captureElementAsImage(thumbnailElement)
+    const thumbnailFile = dataURLtoFile(
+      thumbnailDataUrl,
+      `thumbnail-${resumeId}.png`
+    )
+
+    const formData = new FormData()
+    formData.append("thumbnail", thumbnailFile)
+
+    const uploadResponse = await axiosInstance.put(
+      API_PATHS.RESUME.UPLOAD_IMAGES(resumeId),
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    )
+
+    return uploadResponse.data?.thumbnailLink || null
+  }
+
+  const handleSaveAndExit = async () => {
     try {
       setIsLoading(true)
 
-      const thumbnailElement = thumbnailRef.current
-      if (!thumbnailElement) {
-        throw new Error("Thumbnail element not found")
+      const latestCompletion = calculateCompletion()
+      await updateResumeDetails(resumeData.thumbnailLink || "", latestCompletion)
+
+      try {
+        const thumbnailLink = await uploadResumeThumbnail()
+
+        if (thumbnailLink) {
+          await updateResumeDetails(thumbnailLink, latestCompletion)
+        }
+      } catch (thumbnailError) {
+        console.error("Thumbnail upload failed:", thumbnailError)
       }
 
-      const fixedThumbnail = fixTailwindColors(thumbnailElement)
-
-      const thumbnailCanvas = await html2canvas(fixedThumbnail, {
-        scale: 0.5,
-        backgroundColor: "#FFFFFF",
-        logging: false,
-      })
-
-      document.body.removeChild(fixedThumbnail)
-
-      // STORE THE IMAGE AS RESUME
-      const thumbnailDataUrl = thumbnailCanvas.toDataURL("image/png")
-      const thumbnailFile = dataURLtoFile(
-        thumbnailDataUrl,
-        `thumbnail-${resumeId}.png`
-      )
-
-      const formData = new FormData()
-      formData.append("thumbnail", thumbnailFile)
-
-      const uploadResponse = await axiosInstance.put(
-        API_PATHS.RESUME.UPLOAD_IMAGES(resumeId),
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      )
-
-      const { thumbnailLink } = uploadResponse.data
-      await updateResumeDetails(thumbnailLink)
-
-      toast.success("Resume Updated Successfully")
+      toast.success("Resume updated successfully")
       navigate("/dashboard")
     } catch (error) {
-      console.error("Error Uploading Images:", error)
-      toast.error("Failed to upload images")
+      console.error("Error saving resume:", error)
+      toast.error("Failed to save resume")
     } finally {
       setIsLoading(false)
     }
@@ -611,20 +621,18 @@ const EditResume = () => {
 
 
   // THIS FUNCTION WILL HELP IN UPDATING THE RESUMES AND HELP UPDATION IN BACKEND
-  const updateResumeDetails = async (thumbnailLink) => {
+  const updateResumeDetails = async (thumbnailLink, completion = completionPercentage) => {
     try {
-      setIsLoading(true)
-
-      await axiosInstance.put(API_PATHS.RESUME.UPDATE(resumeId), {
+      const response = await axiosInstance.put(API_PATHS.RESUME.UPDATE(resumeId), {
         ...resumeData,
-        thumbnailLink: thumbnailLink || "",
-        completion: completionPercentage,
+        thumbnailLink: thumbnailLink || resumeData.thumbnailLink || "",
+        completion,
       })
+
+      return response.data
     } catch (err) {
       console.error("Error updating resume:", err)
-      toast.error("Failed to update resume details")
-    } finally {
-      setIsLoading(false)
+      throw err
     }
   }
 
@@ -665,34 +673,48 @@ const EditResume = () => {
         background-color: #fff !important;
         border-color: #000 !important;
       }
+
+      a,
+      a:visited,
+      a span,
+      a svg {
+        color: #2563eb !important;
+        fill: #2563eb !important;
+        stroke: #2563eb !important;
+      }
     `;
     document.head.appendChild(override);
   
-    // TYPE OF HOW IT WILL LOOK WHEN DOWNLOADED
     try {
       await html2pdf()
         .set({
-          margin:       0,
-          filename:     `${resumeData.title.replace(/[^a-z0-9]/gi, "_")}.pdf`,
-          image:        { type: "png", quality: 1.0 },
-          html2canvas:  {
-            scale:           2,
-            useCORS:         true,
+          margin: 0,
+          filename: `${resumeData.title.replace(/[^a-z0-9]/gi, "_")}.pdf`,
+          image: { type: "png", quality: 1.0 },
+          html2canvas: {
+            scale: 5,
+            useCORS: true,
             backgroundColor: "#FFFFFF",
-            logging:         false,
-            windowWidth:     element.scrollWidth,
+            logging: false,
+            letterRendering: true,
+            windowWidth: 794,
+            scrollX: 0,
+            scrollY: 0,
+            removeContainer: true,
           },
-          jsPDF:        {
-            unit:       "mm",
-            format:     "a4",
-            orientation:"portrait",
+          jsPDF: {
+            unit: "mm",
+            format: "a4",
+            orientation: "portrait",
+            compress: false,
+            putOnlyUsedFonts: true,
           },
           pagebreak: {
-            mode: ['avoid-all', 'css', 'legacy']
-          }
+            mode: ["css", "legacy"],
+          },
         })
         .from(element)
-        .save(); // WE SAVE THE RESUME HERE AND THEN WE DOWNLOAD IT...
+        .save();
   
       toast.success("PDF downloaded successfully!", { id: toastId });
       setDownloadSuccess(true);
@@ -775,7 +797,7 @@ const EditResume = () => {
                             Back
                         </button>
 
-                        <button className={buttonStyles.save} onClick={uploadResumeImages} disabled={isLoading}>
+                        <button className={buttonStyles.save} onClick={handleSaveAndExit} disabled={isLoading}>
                             {isLoading ? <Loader2 size={16} className=" animate-spin" />
                             : <Save size={16} />}
                             {isLoading ? "Saving.." : "Save & Exit"} 
@@ -865,7 +887,10 @@ const EditResume = () => {
      </Modal>
 
      {/* THUMBNAIL ERROR FIX */}
-     <div style={{ display: "none" }} ref={thumbnailRef}>
+     <div
+        ref={thumbnailRef}
+        style={{ position: "absolute", left: "-9999px", top: 0, opacity: 0, pointerEvents: "none" }}
+      >
         <div className={containerStyles.hiddenThumbnail}>
             <RenderResume key={`thumb-${resumeData?.template?.theme}`}
             templateId={resumeData?.template?.theme || ""}

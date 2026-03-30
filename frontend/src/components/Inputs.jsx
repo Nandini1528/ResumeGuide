@@ -31,6 +31,33 @@ export const Input = ({ value, onChange, label, placeholder, type = 'text' }) =>
     )
 }
 
+export const SelectInput = ({ value, onChange, label, options = [], placeholder = "Select an option" }) => {
+    const [isFocused, setIsFocused] = useState(false)
+    const styles = inputStyles;
+
+    return (
+        <div className={styles.wrapper}>
+            {label && <label className={styles.label}>{label}</label>}
+            <div className={styles.inputContainer(isFocused)}>
+                <select
+                    className={styles.inputField}
+                    value={value}
+                    onChange={onChange}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                >
+                    <option value="">{placeholder}</option>
+                    {options.map((option) => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
+                </select>
+            </div>
+        </div>
+    )
+}
+
 export const ProfilePhotoSelector = ({ image, setImage, preview, setPreview }) => {
   const inputRef = useRef(null);
   const [previewUrl, setPreviewUrl] = useState(preview || null);

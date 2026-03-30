@@ -87,7 +87,7 @@ const TemplateOne = ({ resumeData = {}, colorPalette, containerWidth }) => {
             {contactInfo.email && (
               <div className="flex items-center">
                 <LuMail className="mr-1" />
-                <a href={`mailto:${contactInfo.email}`} className="hover:underline">
+                <a href={`mailto:${contactInfo.email}`} className="text-blue-600 hover:underline">
                   {contactInfo.email}
                 </a>
               </div>
@@ -95,7 +95,7 @@ const TemplateOne = ({ resumeData = {}, colorPalette, containerWidth }) => {
             {contactInfo.phone && (
               <div className="flex items-center">
                 <LuPhone className="mr-1" />
-                <a href={`tel:${contactInfo.phone}`} className="hover:underline">
+                <a href={`tel:${contactInfo.phone}`} className="text-blue-600 hover:underline">
                   {contactInfo.phone}
                 </a>
               </div>
@@ -111,7 +111,7 @@ const TemplateOne = ({ resumeData = {}, colorPalette, containerWidth }) => {
           {linkedInUrl && (
             <div className="flex items-center mb-1">
               <RiLinkedinLine className="mr-1" />
-              <a href={linkedInUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
+              <a href={linkedInUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                 LinkedIn
               </a>
             </div>
@@ -119,7 +119,7 @@ const TemplateOne = ({ resumeData = {}, colorPalette, containerWidth }) => {
           {gitHubUrl && (
             <div className="flex items-center mb-1">
               <LuGithub className="mr-1" />
-              <a href={gitHubUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
+              <a href={gitHubUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                 GitHub
               </a>
             </div>
@@ -127,7 +127,7 @@ const TemplateOne = ({ resumeData = {}, colorPalette, containerWidth }) => {
           {contactInfo.website && (
             <div className="flex items-center">
               <LuGlobe className="mr-1" />
-              <a href={contactInfo.website} target="_blank" rel="noopener noreferrer" className="hover:underline">
+              <a href={contactInfo.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                 Portfolio
               </a>
             </div>

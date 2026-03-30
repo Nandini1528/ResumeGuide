@@ -54,8 +54,8 @@ const CreateResumeForm = () => {
 
             {error && <p className='text-red-500 text-sm mb-4'>{error}</p>}
 
-            <button type='submit' className='w-full py-3 bg-gradient-to-r from-rose-500 to-pink-600 text-white font-black
-            rounded-2xl hover:scale-105 hover:shadow-xl hover:shadow-rose-200 transition-all'>
+            <button type='submit' className='w-full py-3 bg-[#3276FD] text-white font-black
+            rounded-2xl hover:bg-blue-700 hover:scale-105 hover:shadow-xl hover:shadow-blue-200 transition-all'>
                 Create Resume
             </button>
         </form>

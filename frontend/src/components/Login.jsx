@@ -51,14 +51,14 @@ const Login = ({ setCurrentPage }) => {
         <div className={styles.headerWrapper}>
             <h3 className={styles.title}>Welcome Back</h3>
             <p className={styles.subtitle}>
-                Sign in to continue building amazing resumes
+                Log in to continue building amazing resumes
             </p>
         </div>
         {/* FORM */}
         <form onSubmit={handleLogin} className={styles.form}>
             <Input value={email} onChange={({ target }) => setEmail(target.value)}
             label='Email'
-            placeholder='nandinitekwade15@gmail.com'
+            placeholder='xyz@gmail.com'
             type='email' />
 
            <Input value={password} onChange={({ target }) => setPassword(target.value)}
@@ -69,7 +69,7 @@ const Login = ({ setCurrentPage }) => {
             {error && <div className={styles.errorMessage}>{error}</div>}
 
             <button type='submit' className={styles.submitButton}>
-                Sign In
+                Sign in
             </button>
 
             <p className={styles.switchText}>

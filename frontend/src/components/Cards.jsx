@@ -91,10 +91,10 @@ export const ResumeSummaryCard = ({
     const generateDesign = () => {
       const colors = [
         "from-blue-50 to-blue-100",
-        "from-purple-50 to-purple-100",
-        "from-emerald-50 to-emerald-100",
-        "from-amber-50 to-amber-100",
-        "from-rose-50 to-rose-100"
+        "from-sky-50 to-blue-100",
+        "from-cyan-50 to-sky-100",
+        "from-slate-50 to-blue-100",
+        "from-white to-sky-100"
       ];
       return colors[title.length % colors.length];
     };
@@ -121,7 +121,7 @@ export const ResumeSummaryCard = ({
         <div className={`${cardStyles.previewArea} bg-gradient-to-br ${designColor}`}>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <div className={cardStyles.emptyPreviewIcon}>
-              <Edit size={28} className="text-indigo-600" />
+              <Edit size={28} className="text-black" />
             </div>
             <span className={cardStyles.emptyPreviewText}>{title}</span>
             <span className={cardStyles.emptyPreviewSubtext}>
@@ -214,8 +214,8 @@ export const ResumeSummaryCard = ({
     return (
       <div className={`group h-auto md:h-[300px] lg:h-[320px] flex flex-col bg-white border-2 overflow-hidden
         cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-lg rounded-3xl
-        ${isSelected ? 'border-violet-500 shadow-lg shadow-violet-500/20 bg-violet-50'
-          : ' border-gray-200 hover:border-violet-300'
+        ${isSelected ? 'border-[#3276FD] shadow-lg shadow-blue-200/70 bg-blue-50'
+          : ' border-gray-200 hover:border-blue-300'
         }`} onClick={onSelect}>
           {thumbnailImg ? (
             <div className=" relative w-full h-full overflow-hidden">
@@ -226,23 +226,23 @@ export const ResumeSummaryCard = ({
               to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
               {isSelected && (
-                <div className=" absolute inset-0 bg-violet-500/10 flex items-center justify-center">
+                <div className=" absolute inset-0 bg-blue-500/10 flex items-center justify-center">
                   <div className=" w-16 h-16 bg-white backdrop-blur-sm rounded-full flex items-center
                   justify-center shadow-lg animate-pulse"> 
-                  <Check size={24} className=" text-violet-600" />
+                  <Check size={24} className=" text-[#3276FD]" />
                   </div>
                 </div>
               )}
 
               {/* HOVER EFFECT */}
-              <div className=" absolute inset-0 bg-gradient-to-t from-violet-100/30 to-transparent opacity-0
+              <div className=" absolute inset-0 bg-gradient-to-t from-blue-100/30 to-transparent opacity-0
               group-hover:opacity-100 transition-opacity duration-300">
               </div>
             </div>
           ) : (
-            <div className=" w-full h-[200px] flex items-center flex-col justify-center bg-gradient-to-br from-violet-50
-            via-violet-600 to-fuchsia-50">
-              <div className=" w-12 h-12 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-2xl flex
+            <div className=" w-full h-[200px] flex items-center flex-col justify-center bg-gradient-to-br from-blue-50
+            via-[#3276FD] to-sky-50">
+              <div className=" w-12 h-12 bg-gradient-to-br from-[#3276FD] to-[#5AA0FF] rounded-2xl flex
               items-center justify-center mb-3">
                 <Edit className=" text-white" size={20}/>
               </div>
