@@ -6,6 +6,8 @@ import { UserContext } from '../context/UserContext'
 import img1 from '../assets/1.jpg'
 import img2 from '../assets/2.jpg'
 import img7 from '../assets/7.jpg'
+import ss1 from '../assets/ss1.png'
+import ss2 from '../assets/ss2.png'
 
 
 
@@ -18,7 +20,7 @@ const STEPS = [
     bg: "#191919",
     accent: "#3276FD",
     color: "#fcfcfc",
-    screenshot: img7,
+    screenshot: ss1,
     // ✅ When ready: import step1Img from '../assets/step1.png' and set screenshot: step1Img
   },
   {
@@ -29,7 +31,7 @@ const STEPS = [
     bg: "#fcfcfc",
     accent: "#3276FD",
     color: "#191919",
-    screenshot: img1,
+    screenshot: ss2,
   },
   {
     num: "03",
@@ -82,7 +84,7 @@ function getPos(stepIdx, activeIdx) {
 
 const HowItWorks = () => {
   const { user } = useContext(UserContext)
-  const [active, setActive] = useState(2)
+  const [active, setActive] = useState(0)
   const [animKey, setAnimKey] = useState(0)
   const navigate = useNavigate()
   const timerRef = useRef(null)
@@ -323,7 +325,7 @@ const HowItWorks = () => {
                             width: '100%',
                             height: '100%',
                             objectFit: 'cover',
-                            objectPosition: 'top left',
+                            objectPosition: 'center top',
                           }}
                         />
                       ) : (
