@@ -14,7 +14,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename)
 
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;  
 
 app.use(cors())
 
@@ -32,7 +32,7 @@ app.use(
     '/uploads',
     express.static(path.join(__dirname, 'uploads'), {
         setHeaders: (res, _path) => {
-            res.set('Access-Control-Allow-Origin', 'http://localhost:5173' )
+            res.set('Access-Control-Allow-Origin', 'https://resume-guide-nifu.vercel.app')
         }
     })
 )
