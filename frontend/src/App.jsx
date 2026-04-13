@@ -36,7 +36,7 @@ const App = () => {
       <Route path="/starting-early" element={<StartingEarly />} />
       <Route path="/analyze-job-description" element={<JobDescriptionAnalyzer />} />
     </Routes>
-    <Chatbot />
+    <ChatBot />
     <Toaster toastOptions={{
       className: "",
       style: {
