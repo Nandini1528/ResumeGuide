@@ -411,11 +411,10 @@ export const landingPageStyles = {
   };
   
   export const titleInputStyles = {
-    container: "flex items-center gap-3",
+    container: "flex min-w-0 items-center gap-3",
+    titleButton: "min-w-0 rounded-xl transition-colors hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-violet-200",
     titleText: "text-lg sm:text-xl font-bold text-gray-800",
-    editButton: "p-2 rounded-xl bg-gray-100 hover:bg-gray-200 transition-all group",
-    editIcon: "w-5 h-5 text-gray-600 group-hover:text-violet-600 transition-colors",
-    inputField: focused => `text-lg sm:text-xl font-bold bg-transparent outline-none text-gray-800 placeholder:text-base border-b-2 pb-2 transition-all duration-300 ${focused ? 'border-violet-500' : 'border-gray-300'}`,
+    inputField: focused => `min-w-[220px] max-w-full text-lg sm:text-xl font-bold bg-transparent outline-none text-gray-800 placeholder:text-base border-b-2 pb-2 transition-all duration-300 ${focused ? 'border-violet-500' : 'border-gray-300'}`,
     confirmButton: "p-2 rounded-xl bg-violet-500 hover:bg-violet-600 text-white transition-all",
   };
   

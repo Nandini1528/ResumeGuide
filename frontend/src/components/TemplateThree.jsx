@@ -67,12 +67,15 @@ const TemplateThree = ({ resumeData = {}, containerWidth }) => {
   return (
     <div
       ref={resumeRef}
-      className="bg-white font-sans a4-wrapper text-black max-w-screen-lg mx-auto"
+      className="bg-white font-sans text-black"
       style={{
         transform: containerWidth > 0 ? `scale(${scale})` : "none",
         transformOrigin: "top left",
-        width: containerWidth > 0 ? `${baseWidth}px` : "auto",
-        height: "auto",
+        width: containerWidth > 0 ? `${baseWidth}px` : "210mm",
+        minHeight: containerWidth > 0 ? undefined : "296.5mm",
+        height: containerWidth > 0 ? undefined : "296.5mm",
+        boxSizing: "border-box",
+        overflow: "hidden",
       }}
     >
       {/* Header Section */}

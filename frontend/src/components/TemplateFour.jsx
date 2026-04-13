@@ -79,8 +79,11 @@ const TemplateFour = ({ resumeData = {}, colorPalette, containerWidth }) => {
       style={{
         transform: containerWidth > 0 ? `scale(${scale})` : undefined,
         transformOrigin: "top left",
-        width: containerWidth > 0 ? `${baseWidth}px` : undefined,
-        minHeight: "1100px",
+        width: containerWidth > 0 ? `${baseWidth}px` : "210mm",
+        minHeight: containerWidth > 0 ? undefined : "296.5mm",
+        height: containerWidth > 0 ? undefined : "296.5mm",
+        boxSizing: "border-box",
+        overflow: "hidden",
       }}
     >
       {/* LEFT SIDEBAR */}

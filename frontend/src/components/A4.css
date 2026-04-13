@@ -17,13 +17,38 @@
   }
   
   /* Make this wrapper at least 210mm × 297mm, but let it shrink if content is shorter */
-   .a4-wrapper {
+  .a4-wrapper {
       width: 210mm;
       min-height: 297mm;
       background: white;
       box-sizing: border-box;
       overflow: hidden;
-      page-break-after: always;
+      page-break-after: auto;
+      break-after: auto;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      color-adjust: exact;
+    }
+
+  .a4-wrapper,
+  .a4-wrapper * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      color-adjust: exact;
+    }
+
+  .pdf-export-root,
+  .pdf-export-root * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      color-adjust: exact;
+    }
+
+  .pdf-export-root {
+      width: 210mm;
+      background: white;
+      box-sizing: border-box;
+      overflow: hidden;
     }
   
   /* Avoid breaking inside headings or custom section titles */

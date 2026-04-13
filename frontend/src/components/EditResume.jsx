@@ -663,27 +663,7 @@ const EditResume = () => {
   
     setIsDownloading(true);
     setDownloadSuccess(false);
-    const toastId = toast.loading("Generating PDFâ€¦");
-  
-    const override = document.createElement("style");
-    override.id = "__pdf_color_override__";
-    override.textContent = `
-      * {
-        color: #000 !important;
-        background-color: #fff !important;
-        border-color: #000 !important;
-      }
-
-      a,
-      a:visited,
-      a span,
-      a svg {
-        color: #2563eb !important;
-        fill: #2563eb !important;
-        stroke: #2563eb !important;
-      }
-    `;
-    document.head.appendChild(override);
+    const toastId = toast.loading("Generating Pdf!");
   
     try {
       await html2pdf()
@@ -725,7 +705,6 @@ const EditResume = () => {
       toast.error(`Failed to generate PDF: ${err.message}`, { id: toastId });
   
     } finally {
-      document.getElementById("__pdf_color_override__")?.remove();
       setIsDownloading(false);
     }
   };
@@ -837,7 +816,7 @@ const EditResume = () => {
 
     {/* MODAL DATA HERE */}
     <Modal isOpen={openThemeSelector} onClose={() => setOpenThemeSelector(false)}
-    title="Change Title">
+    title="Change Theme">
         <div className={containerStyles.modalContent}>
             <ThemeSelector selectedTheme={resumeData?.template.theme}
             setSelectedTheme={updateTheme} onClose={() => setOpenThemeSelector(false)}
@@ -873,8 +852,8 @@ const EditResume = () => {
                 </div>
 
                 <div className={containerStyles.pdfPreview}>
-                    <div ref={resumeDownloadRef} className=" a4-wrapper">
-                        <div className=" w-full h-full">
+                    <div ref={resumeDownloadRef} className="pdf-export-root">
+                        <div className="w-full">
                             <RenderResume key={`pdf-${resumeData?.template?.theme}`}
                             templateId={resumeData?.template?.theme || ""}
                             resumeData={resumeData}

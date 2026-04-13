@@ -6,8 +6,11 @@ import { UserContext } from '../context/UserContext'
 import img1 from '../assets/1.jpg'
 import img2 from '../assets/2.jpg'
 import img7 from '../assets/7.jpg'
-import ss1 from '../assets/ss1.png'
-import ss2 from '../assets/ss2.png'
+import s1 from '../assets/s1.png'
+import s2 from '../assets/s2.png'
+import s3 from '../assets/s3.png'
+import s4 from '../assets/s4.png'
+import s5 from '../assets/s5.png'
 
 
 
@@ -20,7 +23,7 @@ const STEPS = [
     bg: "#191919",
     accent: "#3276FD",
     color: "#fcfcfc",
-    screenshot: ss1,
+    screenshot: s1,
     // ✅ When ready: import step1Img from '../assets/step1.png' and set screenshot: step1Img
   },
   {
@@ -31,7 +34,7 @@ const STEPS = [
     bg: "#fcfcfc",
     accent: "#3276FD",
     color: "#191919",
-    screenshot: ss2,
+    screenshot: s2,
   },
   {
     num: "03",
@@ -41,7 +44,11 @@ const STEPS = [
     bg: "#191919",
     accent: "#3276FD",
     color: "#fcfcfc",
-    screenshot: img7,
+    screenshot: s3,
+    screenshotFit: "contain",
+    screenshotPosition: "center",
+    screenshotPadding: "20px",
+    screenshotBg: "#f8fafc",
   },
   {
     num: "04",
@@ -51,7 +58,11 @@ const STEPS = [
     bg: "#fcfcfc",
     accent: "#3276FD",
     color: "#191919",
-    screenshot: img1,
+    screenshot: s4,
+    screenshotFit: "contain",
+    screenshotPosition: "center",
+    screenshotPadding: "20px",
+    screenshotBg: "#f8fafc",
   },
   {
     num: "05",
@@ -61,7 +72,7 @@ const STEPS = [
     bg: "#191919",
     accent: "#3276FD",
     color: "#fcfcfc",
-    screenshot: img7,
+    screenshot: s5,
   },
 ]
 
@@ -308,7 +319,7 @@ const HowItWorks = () => {
                     <div style={{
                       flex: 1,
                       height: '100%',
-                      background: 'rgba(255,255,255,0.08)',
+                      background: step.screenshotBg || 'rgba(255,255,255,0.08)',
                       borderLeft: '1px solid rgba(255,255,255,0.1)',
                       display: 'flex',
                       alignItems: 'center',
@@ -324,8 +335,9 @@ const HowItWorks = () => {
                           style={{
                             width: '100%',
                             height: '100%',
-                            objectFit: 'cover',
-                            objectPosition: 'center top',
+                            objectFit: step.screenshotFit || 'cover',
+                            objectPosition: step.screenshotPosition || 'center top',
+                            padding: step.screenshotPadding || 0,
                           }}
                         />
                       ) : (

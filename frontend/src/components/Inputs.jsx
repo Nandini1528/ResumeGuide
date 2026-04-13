@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { inputStyles, titleInputStyles } from '../assets/style'
-import { Edit, Eye, EyeOff } from 'lucide-react'
+import { Check, Eye, EyeOff } from 'lucide-react'
 
 export const Input = ({ value, onChange, label, placeholder, type = 'text' }) => {
 
@@ -128,6 +128,12 @@ export const TitleInput = ({ title, setTitle }) => {
   const [editing, setEditing] = useState(false);
   const [focused, setFocused] = useState(false);
   const styles = titleInputStyles;
+  const displayTitle = title?.trim() || "Untitled Resume";
+
+  const stopEditing = () => {
+    setEditing(false);
+    setFocused(false);
+  };
 
   return (
     <div className={styles.container}>
@@ -140,18 +146,28 @@ export const TitleInput = ({ title, setTitle }) => {
             value={title}
             onChange={({ target }) => setTitle(target.value)}
             onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
+            onBlur={stopEditing}
+            onKeyDown={({ key }) => {
+              if (key === "Enter" || key === "Escape") {
+                stopEditing();
+              }
+            }}
             autoFocus
           />
-          <button className={styles.confirmButton} onClick={() => setEditing(false)}>
+          <button type="button" className={styles.confirmButton} onMouseDown={(e) => e.preventDefault()} onClick={stopEditing}>
             <Check className="w-5 h-5" />
           </button>
         </>
       ) : (
         <>
-          <h2 className={styles.titleText}>{title}</h2>
-          <button className={styles.editButton} onClick={() => setEditing(true)}>
-            <Edit className={styles.editIcon} />
+          <button
+            type="button"
+            className={styles.titleButton}
+            onClick={() => setEditing(true)}
+            aria-label="Edit resume title"
+            title="Edit resume title"
+          >
+            <h2 className={styles.titleText}>{displayTitle}</h2>
           </button>
         </>
       )}

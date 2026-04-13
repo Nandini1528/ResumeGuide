@@ -88,7 +88,7 @@ const SignUp = ({ setCurrentPage }) => {
 
         {/* FOOTER */}
         <p className={styles.switchText}>
-            Already have ab account?{' '}
+            Already have an account?{' '}
             <button onClick={() => setCurrentPage('login')}
                 type='button' className={styles.signupSwitchButton}>
                     Sign In
