@@ -32,8 +32,7 @@ app.use(
     '/uploads',
     express.static(path.join(__dirname, 'uploads'), {
         setHeaders: (res, _path) => {
-            res.set('Access-Control-Allow-Origin', 'https://resume-guide-nifu.vercel.app')
-        }
+            res.set('Access-Control-Allow-Origin', 'https://resume-guide-nifu.vercel.app')        }
     })
 )
 
