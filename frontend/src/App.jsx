@@ -13,7 +13,7 @@ import Hackathons from './pages/Hackathons'
 import Clubs from './pages/Clubs'
 import StartingEarly from './pages/StartingEarly'
 import JobDescriptionAnalyzer from './pages/JobDescriptionAnalyzer'
-import Chatbot from './components/Chatbot'
+import ChatBot from './components/ChatBot'
 import ScrollToTop from './components/ScrollToTop'
 
 const App = () => {
